@@ -59,11 +59,6 @@ const Header = () => {
           <FaSignOutAlt className="mr-1" /> Sign Out
         </button>
       </li>
-      <li>
-        <NavLink to="/order" className="text-lg font-medium text-gray-800 hover:text-gray-600">
-          Order History
-        </NavLink>
-      </li>
     </>
   );
 
@@ -80,15 +75,27 @@ const Header = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/admin/dashboard" className="text-lg font-medium text-gray-800 hover:text-gray-600">
-          Admin Dashboard
+        <NavLink to="/about" className="text-lg font-medium text-gray-800 hover:text-gray-600">
+          About
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/contact" className="text-lg font-medium text-gray-800 hover:text-gray-600">
+          Contact Us
+        </NavLink>
+      </li>
+      {token && (
+        <li>
+          <NavLink to="/admin/dashboard" className="text-lg font-medium text-gray-800 hover:text-gray-600">
+            Admin Dashboard
+          </NavLink>
+        </li>
+      )}
     </>
   );
 
   return (
-    <div className="navbar bg-transparent py-4">
+    <div className="navbar bg-slate-400 py-4 px-6">
       <div className="navbar-start">
         {/* Brand Name */}
         <NavLink to="/" className="btn btn-ghost normal-case text-2xl text-gray-800 font-bold">
@@ -126,11 +133,11 @@ const Header = () => {
 
       {/* Desktop Menu */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navLinks}</ul>
+        <ul className="menu menu-horizontal px-4">{navLinks}</ul>
       </div>
 
       {/* User Actions */}
-      <div className="navbar-end hidden lg:flex items-center space-x-4">
+      <div className="navbar-end hidden lg:flex items-center space-x-6">
         <ul className="menu menu-horizontal px-1">{token ? userLinks : guestLinks}</ul>
         <NavLink to="/cart" className="flex items-center text-lg font-medium text-gray-800 hover:text-gray-600">
           <FaCartPlus className="mr-1" />

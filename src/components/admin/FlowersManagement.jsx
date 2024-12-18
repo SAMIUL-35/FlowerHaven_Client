@@ -35,49 +35,46 @@ const FlowerManagement = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="p-8 flex-grow">
         <div className="space-y-4">
-         
           <Link
             to="/admin/flowers/add"
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full text-center"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg w-full text-center transition duration-300"
           >
             Add Flower
           </Link>
         </div>
 
-        <div className="mt-8 overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead>
+        <div className="mt-8 overflow-x-auto shadow-md rounded-lg">
+          <table className="min-w-full bg-white border border-gray-300 rounded-lg">
+            <thead className="bg-gray-200">
               <tr>
-                <th className="border border-gray-300 px-4 py-2">ID</th>
-                <th className="border border-gray-300 px-4 py-2">Flower Name</th>
-                <th className="border border-gray-300 px-4 py-2">Price</th>
-                <th className="border border-gray-300 px-4 py-2">Quantity</th>
-            
-                <th className="border border-gray-300 px-4 py-2">Actions</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">ID</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Flower Name</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Price</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Quantity</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {flowers.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center">
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
                     No flowers found.
                   </td>
                 </tr>
               ) : (
                 flowers.map((flower) => (
-                  <tr key={flower.id}>
+                  <tr key={flower.id} className="hover:bg-gray-100 transition duration-300">
                     <td className="border border-gray-300 px-4 py-2">{flower.id}</td>
                     <td className="border border-gray-300 px-4 py-2">{flower.name}</td>
                     <td className="border border-gray-300 px-4 py-2">{flower.price}</td>
                     <td className="border border-gray-300 px-4 py-2">{flower.stock}</td>
-                   
-                    <td className="border border-gray-300 px-4 py-2">
+                    <td className="border border-gray-300 px-4 py-2 text-center">
                       <button
                         onClick={() => handleDelete(flower.id)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
                       >
                         Delete
                       </button>
@@ -89,31 +86,31 @@ const FlowerManagement = () => {
           </table>
         </div>
 
-        <div className="mt-4 flex justify-between">
-          <button
-            onClick={() => handlePageChange("prev")}
-            disabled={currentPage === 1}
-            className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span>
+        <div className="mt-6 flex justify-between items-center">
+          <div>
+            <button
+              onClick={() => handlePageChange("prev")}
+              disabled={currentPage === 1}
+              className="p-2 bg-blue-600 text-white rounded-lg disabled:opacity-50 hover:bg-blue-700 transition duration-300"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => handlePageChange("next")}
+              disabled={currentPage === totalPages}
+              className="ml-4 p-2 bg-blue-600 text-white rounded-lg disabled:opacity-50 hover:bg-blue-700 transition duration-300"
+            >
+              Next
+            </button>
+          </div>
+          <span className="text-sm text-gray-600">
             Page {currentPage} of {totalPages}
           </span>
-          <button
-            onClick={() => handlePageChange("next")}
-            disabled={currentPage === totalPages}
-            className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          >
-            Next
-          </button>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-4">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
-      </footer>
+      
     </div>
   );
 };

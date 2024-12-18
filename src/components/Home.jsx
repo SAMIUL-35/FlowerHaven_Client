@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Flower from './Flower';
 import Banner from './Banner';
+import { CartContext } from "./context/CartContext";
 
 const Home = () => {
     const [loadedFlowers, setLoadedFlowers] = useState([]);
@@ -26,7 +27,7 @@ const Home = () => {
             const response = await fetch(`http://127.0.0.1:8000/api/flower/?page=${currentPage}${categoryFilter}${searchFilter}`);
             const data = await response.json();
             setLoadedFlowers(data.results || []);
-            setTotalPages(Math.ceil(data.count / 2));
+            setTotalPages(Math.ceil(data.count / 12));
         };
 
         fetchFlowers();
@@ -34,7 +35,6 @@ const Home = () => {
 
     // Handle category filter change
     const handleCategoryChange = (categoryId) => {
-        console.log('Selected Category:', categoryId); // Debug log
         setSelectedCategory(categoryId);
         setCurrentPage(1);
     };
@@ -50,7 +50,6 @@ const Home = () => {
 
     // Handle search input change
     const handleSearchChange = (e) => {
-        console.log('Search Query:', e.target.value); // Debug log
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
@@ -58,35 +57,33 @@ const Home = () => {
     return (
         <>
             <Banner />
-            <div className="p-4 mt-5">
+            <div className="p-8 mt-6 max-w-screen-xl mx-auto">
                 {/* Search Bar */}
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-6">
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="Search flowers..."
-                        className="w-full max-w-md p-2 text-black border rounded bg-white"
-                        style={{ zIndex: 10 }}
+                        className="w-full max-w-md p-3 text-gray-600 bg-white border rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 {/* Title and Description */}
-                <h2 className="text-center mb-4 text-gray-900 font-bold text-3xl">Hot Flowers</h2>
-                <p className="text-gray-900 font-bold text-center mb-4">
+                <h2 className="text-center mb-4 text-4xl font-bold text-gray-900">Hot Flowers</h2>
+                <p className="text-center mb-6 text-lg text-gray-700">
                     Discover the best flowers in your area. Filter by category and search for specific flowers.
                 </p>
 
                 {/* Category Filter */}
-                <div className="flex flex-wrap justify-center text-gray-900 font-bold gap-4 mb-6">
+                <div className="flex flex-wrap justify-center gap-6 mb-8">
                     {categories.map(category => (
                         <button
                             key={category.id}
                             onClick={() => handleCategoryChange(category.id)}
-                            className={`px-4 py-2 border rounded ${
-                                selectedCategory === category.id ? 'bg-dark-500 text-white' : 'bg-dark text-gray-900'
+                            className={`px-6 py-3 text-lg font-semibold rounded-lg transition-all duration-300 ${
+                                selectedCategory === category.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
                             }`}
-                            style={{ zIndex: 10 }}
                         >
                             {category.name}
                         </button>
@@ -94,30 +91,32 @@ const Home = () => {
                 </div>
 
                 {/* Flower List */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     {loadedFlowers.length === 0 ? (
-                        <p className="col-span-full text-center text-gray-900">No flowers found. Please refine your search or select a category.</p>
+                        <p className="col-span-full text-center text-xl text-gray-900">No flowers found. Please refine your search or select a category.</p>
                     ) : (
                         loadedFlowers.map(flower => (
-                            <Flower key={flower.id} categories={categories}flower={flower} />
+                            <div key={flower.id} className="flex justify-center items-center">
+                                <Flower key={flower.id} categories={categories} flower={flower} style={{ maxWidth: '90%' }} />
+                            </div>
                         ))
                     )}
                 </div>
 
                 {/* Pagination */}
-                <div className="mt-4 flex justify-between">
+                <div className="mt-6 flex justify-between items-center">
                     <button
                         onClick={() => handlePageChange('prev')}
                         disabled={currentPage === 1}
-                        className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
+                        className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md disabled:opacity-50 hover:bg-blue-600 transition-all duration-300"
                     >
                         Previous
                     </button>
-                    <span className="text-gray-900">Page {currentPage} of {totalPages}</span>
+                    <span className="text-gray-900 text-xl">Page {currentPage} of {totalPages}</span>
                     <button
                         onClick={() => handlePageChange('next')}
                         disabled={currentPage === totalPages}
-                        className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
+                        className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md disabled:opacity-50 hover:bg-blue-600 transition-all duration-300"
                     >
                         Next
                     </button>

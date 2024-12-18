@@ -17,7 +17,6 @@ const SignUp = () => {
       return;
     }
   
-    // Prepare the registration data
     const registrationData = {
       username: username,
       email: email,
@@ -34,18 +33,18 @@ const SignUp = () => {
         body: JSON.stringify(registrationData),
       });
   
-      console.log(response);  // Log the response object to inspect its status
+      console.log(response);  
   
       if (response.ok) {
         alert('Registration Successful. Please check your email for confirmation.');
-        navigate('/signin'); // Redirect to login page after successful registration
+        navigate('/signin');
       } else {
         const data = await response.json();
-        console.log(data);  // Log the response data (error message)
+        console.log(data);
         setError(data.detail || 'Error during registration!');
       }
     } catch (err) {
-      console.error(err);  // Log any error that occurs during the request
+      console.error(err);
       setError('Network error or server is not responding!');
     }
   };
@@ -56,71 +55,74 @@ const SignUp = () => {
       style={{ backgroundImage: "url('/src/assets/signup3.jpg')" }}
     >
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60 z-0"></div>
+      {/* <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 z-0"></div> */}
 
       {/* Form Section */}
-      <div className="relative z-10 bg-sky-200 p-6 shadow-lg rounded-lg max-w-sm w-full mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center">Sign Up</h2>
-        {error && <div className="text-red-500 mb-3 text-center">{error}</div>}
+      <div className="relative z-10 bg-white/80 p-8 shadow-xl rounded-lg max-w-md w-full mx-auto backdrop-blur-sm">
+        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">Create Your Account</h2>
+        {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="username" className="block text-sm font-semibold text-gray-800">
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-lg font-semibold text-gray-800">
               Username
             </label>
             <input
               type="text"
               id="username"
-              className="input input-bordered w-full"
+              className="w-full p-3 mt-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-800">
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-lg font-semibold text-gray-800">
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="input input-bordered w-full"
+              className="w-full p-3 mt-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password1" className="block text-sm font-semibold text-gray-800">
+          <div className="mb-4">
+            <label htmlFor="password1" className="block text-lg font-semibold text-gray-800">
               Password
             </label>
             <input
               type="password"
               id="password1"
-              className="input input-bordered w-full"
+              className="w-full p-3 mt-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password1}
               onChange={(e) => setPassword1(e.target.value)}
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password2" className="block text-sm font-semibold text-gray-800">
+          <div className="mb-4">
+            <label htmlFor="password2" className="block text-lg font-semibold text-gray-800">
               Confirm Password
             </label>
             <input
               type="password"
               id="password2"
-              className="input input-bordered w-full"
+              className="w-full p-3 mt-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-full mb-3">
+          <button
+            type="submit"
+            className="w-full p-3 mt-4 rounded-lg bg-blue-600 text-white text-lg font-semibold hover:bg-blue-700 transition duration-300"
+          >
             Sign Up
           </button>
         </form>
 
-        <p className="text-center text-gray-700">
+        <p className="text-center text-gray-700 mt-4">
           Already have an account?{' '}
           <button
             onClick={() => navigate('/signin')}

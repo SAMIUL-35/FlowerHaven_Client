@@ -27,8 +27,9 @@ import Order from "./components/Order.jsx";
 import FlowersManagement from "./components/admin/FlowersManagement.jsx";
 import FlowerForm from "./components/admin/Flowerform.jsx";
 import OrderManagement from "./components/admin/OrderManagement.jsx";
+import ProtectedRoute from "./components/context/ProtectedRoute.jsx";
 
-document.body.style.backgroundColor = "#a3d4d3";
+// document.body.style.backgroundColor = "#a3d4d3";
 
 const router = createBrowserRouter([
   // Main User Routes
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
   
   {
     path: "/admin",
-    element: <AdminDashboardLayout />, 
+    element: < ProtectedRoute element={<AdminDashboardLayout />}  />, 
     children: [
       { path: "dashboard", element: <AdminDashboard /> },
       { path: "flowers", element: <FlowersManagement /> },

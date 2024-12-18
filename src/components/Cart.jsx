@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { toast } from "react-toastify";
 import { AuthContext } from "./context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "./css/style.css"; // Ensure the updated CSS is imported
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -79,35 +80,40 @@ const Cart = () => {
   const grandTotal = calculateTotalPrice();
 
   return (
-    <div className="min-h-screen flex flex-col p-6 bg-black-50">
+    <div className="min-h-screen flex flex-col p-6 bg-gray-100">
       {cartItems.length === 0 ? (
         <div className="text-center">
-          <p className="text-xl">Your cart is empty!</p>
+          <p className="text-xl text-gray-800">Your cart is empty!</p>
           <button className="btn btn-primary mt-4" onClick={handleBackToHome}>
             Continue Shopping
           </button>
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto  bg-red-200 shadow-lg rounded-lg mb-6">
-            <table className="table w-full table-zebra bg-red-200 border-collapse">
-              <thead className="bg-red-200">
+          <div className="overflow-x-auto rounded-lg mb-6 bg-white shadow-lg">
+            <table className="table w-full table-auto border-collapse">
+              <thead className="bg-gray-800 text-white">
                 <tr>
-                  <th className="border p-2 ">Name</th>
-                  <th className="border p-2">Quantity</th>
-                  <th className="border p-2">Price (unit)</th>
-                  <th className="border p-2">Total Price</th>
-                  <th className="border p-2">Actions</th>
+                  <th className="border p-3">Name</th>
+                  <th className="border p-3">Quantity</th>
+                  <th className="border p-3">Price (unit)</th>
+                  <th className="border p-3">Total Price</th>
+                  <th className="border p-3">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {cartItems.map((item) => (
-                  <tr key={item.id}>
-                    <td className="border p-2">{item.flower_name}</td>
-                    <td className="border p-2">{item.quantity}</td>
-                    <td className="border p-2">{item.flower_price}</td>
-                    <td className="border p-2">{item.total_price}</td>
-                    <td className="border p-2">
+              <tbody className="text-gray-900">
+                {cartItems.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={`hover:bg-gray-200 transition-colors ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                    }`}
+                  >
+                    <td className="border p-3">{item.flower_name}</td>
+                    <td className="border p-3">{item.quantity}</td>
+                    <td className="border p-3">${item.flower_price}</td>
+                    <td className="border p-3">${item.total_price}</td>
+                    <td className="border p-3">
                       <button
                         className="btn btn-error btn-sm"
                         onClick={() => handleDelete(item.id)}
@@ -121,10 +127,10 @@ const Cart = () => {
             </table>
           </div>
 
-          <div className="flex justify-between mt-4">
-            <p className="font-bold text-lg">Grand Total: ${grandTotal}</p>
-            <div>
-              <button className="btn btn-primary mr-2" onClick={handleBackToHome}>
+          <div className="flex justify-between items-center mt-6 bg-white p-4 shadow-md rounded-lg">
+            <p className="font-bold text-lg text-gray-900">Grand Total: ${grandTotal}</p>
+            <div className="flex space-x-4">
+              <button className="btn btn-secondary" onClick={handleBackToHome}>
                 Continue Shopping
               </button>
               <button className="btn btn-success" onClick={handleProceedToCheckout}>
@@ -134,8 +140,9 @@ const Cart = () => {
           </div>
         </>
       )}
+
       {message && (
-        <div className={`mt-4 ${message.includes("success") ? "text-green-600" : "text-red-600"}`}>
+        <div className={`mt-4 text-sm ${message.includes("success") ? "text-green-600" : "text-red-600"}`}>
           {message}
         </div>
       )}

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
+import './css/style.css';  // Import the CSS file
 
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -79,18 +80,18 @@ const Checkout = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Optionally, display a loading spinner here
+    return <div className="text-center text-xl">Loading...</div>; // Optionally, display a loading spinner here
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-4">
-      <h2 className="text-3xl mb-5 text-center font-semibold">Checkout</h2>
+    <div className="checkout-container">
+      <h2 className="checkout-title">Checkout</h2>
 
-      {error && <div className="text-red-500 mb-3">{error}</div>}
+      {error && <div className="checkout-error">{error}</div>}
 
       {/* Table for cart items */}
-      <div className="overflow-x-auto mb-5">
-        <table className="table table-zebra w-full">
+      <div className="overflow-x-auto mb-6">
+        <table className="checkout-table">
           <thead>
             <tr>
               <th>Flower Name</th>
@@ -119,15 +120,15 @@ const Checkout = () => {
       </div>
 
       {/* Total Price */}
-      <div className="flex justify-between items-center mb-5">
-        <h3 className="text-xl font-semibold">Total Price</h3>
-        <p className="text-lg font-semibold">BDT {totalPrice}</p>
+      <div className="total-price">
+        <h3>Total Price</h3>
+        <p>BDT {totalPrice}</p>
       </div>
 
       {/* Proceed to Payment Button */}
-      <div className="mt-5">
+      <div>
         <button
-          className="btn btn-primary w-full py-2"
+          className="payment-button"
           onClick={handlePayment}
         >
           Proceed to Payment

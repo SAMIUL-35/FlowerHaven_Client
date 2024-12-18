@@ -90,47 +90,48 @@ const OrderManagement = () => {
 
   return (
     <div className="p-8">
-      
+      {/* Loading Spinner */}
+      {isLoading && (
+        <div className="flex justify-center my-4">
+          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 border-blue-600 rounded-full" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
 
-      <div className="mt-8 overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300">
-          <thead>
+      <div className="mt-8 overflow-x-auto shadow-lg rounded-lg border border-gray-300">
+        <table className="min-w-full bg-white">
+          <thead className="bg-gray-200">
             <tr>
-              <th className="border border-gray-300 px-4 py-2">Order ID</th>
-              <th className="border border-gray-300 px-4 py-2">User ID</th>
-              <th className="border border-gray-300 px-4 py-2">User Name</th>
-              <th className="border border-gray-300 px-4 py-2">Total Price</th>
-              <th className="border border-gray-300 px-4 py-2">Status</th>
-              <th className="border border-gray-300 px-4 py-2">Created At</th>
-              <th className="border border-gray-300 px-4 py-2">Payment ID</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">Order ID</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">User ID</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">User Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">Total Price</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">Status</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">Created At</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">Payment ID</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td colSpan="7" className="text-center">
-                  No orders found.
-                </td>
+                <td colSpan="8" className="text-center text-gray-500 py-4">No orders found.</td>
               </tr>
             ) : (
               orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="border border-gray-300 px-4 py-2">{order.id}</td>
-                  <td className="border border-gray-300 px-4 py-2">{order.user_id}</td>
-                  <td className="border border-gray-300 px-4 py-2">{order.username}</td>
-                  <td className="border border-gray-300 px-4 py-2">${parseFloat(order.total_price).toFixed(2)}</td>
-                  <td className="border border-gray-300 px-4 py-2">{order.status}</td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {new Date(order.created_at).toLocaleString()}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {order.paymentId ? order.paymentId : "N/A"}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
+                <tr key={order.id} className="border-t border-gray-300 hover:bg-gray-50">
+                  <td className="px-4 py-2 text-sm">{order.id}</td>
+                  <td className="px-4 py-2 text-sm">{order.user_id}</td>
+                  <td className="px-4 py-2 text-sm">{order.username}</td>
+                  <td className="px-4 py-2 text-sm">${parseFloat(order.total_price).toFixed(2)}</td>
+                  <td className="px-4 py-2 text-sm">{order.status}</td>
+                  <td className="px-4 py-2 text-sm">{new Date(order.created_at).toLocaleString()}</td>
+                  <td className="px-4 py-2 text-sm">{order.paymentId ? order.paymentId : "N/A"}</td>
+                  <td className="px-4 py-2">
                     <button
                       onClick={() => handleChangeStatus(order.id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
                       disabled={order.status !== "pending"}
                     >
                       Change Status
@@ -143,24 +144,27 @@ const OrderManagement = () => {
         </table>
       </div>
 
-      <div className="mt-4 flex justify-between">
-        <button
-          onClick={() => handlePageChange("prev")}
-          disabled={currentPage === 1}
-          className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange("next")}
-          disabled={currentPage === totalPages}
-          className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
-        >
-          Next
-        </button>
+      {/* Pagination */}
+      <div className="mt-4 flex justify-between items-center">
+        <div className="flex space-x-4">
+          <button
+            onClick={() => handlePageChange("prev")}
+            disabled={currentPage === 1}
+            className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange("next")}
+            disabled={currentPage === totalPages}
+            className="p-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

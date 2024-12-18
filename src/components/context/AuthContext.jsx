@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
           localStorage.removeItem('token');
         });
     }
-  }, []); // Runs on component mount
+  }, []); 
 
   return (
     <AuthContext.Provider value={{ username,email, userType, token, setUser, setUserType, setToken }}>

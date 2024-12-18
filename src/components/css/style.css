@@ -1,0 +1,109 @@
+/* Defining a custom color */
+:root {
+  --b1: 220deg 24.36% 80.64%; /* Light blue-gray color */
+}
+
+/* Applying the background color to table body cells */
+.table :where(tbody th, tbody td) {
+  background-color: hsl(var(--b1)); /* Use the defined color */
+  color: #333; /* Ensure the text is dark for readability */
+}
+
+/* Optionally, add hover effects */
+.table tbody tr:hover {
+  background-color: hsl(var(--b1) / 1.2); /* Lighter shade on hover */
+}
+
+/* Zebra striping effect */
+.table tbody tr:nth-child(even) {
+  background-color: hsl(var(--b1) / 1.5); /* Slightly lighter color */
+}
+
+
+/* Container Styling */
+.checkout-container {
+  max-width: 80%;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: black;
+}
+
+/* Heading Styles */
+.checkout-title {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  color: #2563eb; /* Blue Color */
+  margin-bottom: 24px;
+}
+
+.checkout-error {
+  color: #f87171; /* Red Color */
+  margin-bottom: 16px;
+}
+
+/* Table Styles */
+.checkout-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+
+.checkout-table th,
+.checkout-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.checkout-table thead {
+  background-color: #1f2937; /* Dark gray background for the header */
+  color: white;
+}
+
+.checkout-table tbody tr:hover {
+  background-color: #f3f4f6; /* Light gray hover effect */
+}
+
+/* Total Price Section */
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.total-price h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.total-price p {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2563eb; /* Blue Color */
+}
+
+/* Button Styles */
+.payment-button {
+  width: 100%;
+  padding: 16px;
+  background-color: #2563eb; /* Blue Background */
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.payment-button:hover {
+  background-color: #1d4ed8; /* Darker Blue on hover */
+}
+
+.payment-button:focus {
+  outline: none;
+}
