@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
+import { CartContext } from "./context/CartContext";
 
 const FlowerDetail = () => {
   const { id } = useParams();
@@ -8,8 +9,12 @@ const FlowerDetail = () => {
   const [flower, setFlower] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { username, token } = useContext(AuthContext);
+  const [isFlowerLoading, setFlowerLoading] = useState(true); // Flower loading state
+  const { username } = useContext(AuthContext);
+  const token = localStorage.getItem("token");
+  const { categoryname } = useContext(CartContext);
 
+  // Fetch flower details
   useEffect(() => {
     const fetchFlowerDetails = async () => {
       try {
@@ -21,15 +26,17 @@ const FlowerDetail = () => {
         setFlower(data);
       } catch (error) {
         setMessage("Error fetching flower details. Please try again later.");
+      } finally {
+        setFlowerLoading(false);
       }
     };
     fetchFlowerDetails();
   }, [id]);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (redirectToCart = false) => {
     if (!token) {
       setMessage("You need to log in to add items to the cart.");
-      navigate("/login");
+      navigate("/signin");
       return;
     }
 
@@ -41,6 +48,7 @@ const FlowerDetail = () => {
     const payload = {
       flower: flower.id,
       quantity: 1,
+      purchased: false,
     };
 
     try {
@@ -53,52 +61,111 @@ const FlowerDetail = () => {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to add item to cart.");
+      const responseData = await response.json();
+      if (redirectToCart) {
+        navigate("/cart");
       }
-
-      setMessage("Item added to cart successfully!");
+      if (response.ok) {
+        setMessage("Item added to cart successfully!");
+        
+      } 
     } catch (error) {
-      setMessage(error.response?.data?.detail || "An unexpected error occurred.");
+      console.error("Error adding to cart:", error);
+      setMessage("An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (!flower) {
+  if (isFlowerLoading) {
     return <div>Loading flower details...</div>;
   }
 
-  const { name, description, price, image, stock } = flower;
+  if (!flower) {
+    return <div>Flower not found.</div>;
+  }
+
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+
+  const { name, category, description, price, image, stock } = flower;
 
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row">
-        <img src={image} alt={name} className="max-w-sm rounded-lg shadow-2xl" />
-        <div>
-          <h1 className="text-5xl font-bold">{name}</h1>
-          <p className="py-6">{description}</p>
-          <p className="text-lg font-semibold">Price: ${price}</p>
-          <p className="text-sm text-gray-500">Stock: {stock}</p>
-          {username && (
-            <p className="text-sm text-gray-500">Logged in as: {username}</p>
-          )}
-          <button
-            className={`btn btn-primary ${loading ? "loading" : ""}`}
-            onClick={handleAddToCart}
-            disabled={loading || stock === 0}
-          >
-            {loading ? "Adding..." : stock === 0 ? "Out of Stock" : "Add to Cart"}
-          </button>
-          {message && (
-            <p
-              className={`mt-4 ${
-                message.includes("success") ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {message}
+    <div className="container mx-auto mt-44 min-h-screen px-4">
+      <div className="flex flex-col lg:flex-row items-start gap-8 max-w-6xl mx-auto">
+        {/* Image Section */}
+        <div className="card bg-base-100 shadow-xl w-full lg:w-1/2">
+          <figure>
+            <img
+              src={image || "/static/default-image.jpg"}
+              alt={name}
+              className="object-cover h-96 w-full"
+            />
+          </figure>
+        </div>
+
+        {/* Content Section */}
+        <div className="card bg-lime-100 shadow-xl w-full h-96 lg:w-1/2">
+          <div className="card-body text-gray-800">
+            {/* Title */}
+            <h2 className="card-title">
+              {name}
+              {stock > 0 ? (
+                <div className="badge badge-secondary ml-2">In Stock</div>
+              ) : (
+                <div className="badge badge-error ml-2">Out of Stock</div>
+              )}
+            </h2>
+
+            {/* Category */}
+            <p className="text-lg font-semibold text-gray-600">
+              <span className="font-semibold">Category:</span> {categoryname}
             </p>
-          )}
+
+            {/* Price */}
+            <p className="text-lg font-semibold">Price: ${price}</p>
+
+            {/* Description */}
+            <p className="text-lg font-semibold mb-4">Description: {description}</p>
+
+            {/* Stock */}
+            <p className="text-sm font-semibold">
+              Stock: {stock > 0 ? stock : "Unavailable"}
+            </p>
+
+            {/* Buttons */}
+            <div className="card-actions flex flex-col sm:flex-row gap-4 mt-6">
+              <button
+                className={`btn btn-primary ${loading ? "loading" : ""}`}
+                onClick={() => handleAddToCart(false)}
+                disabled={loading || stock === 0}
+              >
+                {loading ? "Processing..." : stock === 0 ? "Out of Stock" : "Add to Cart"}
+              </button>
+              <button
+                className="btn btn-primary bg-green-500"
+                onClick={() => handleAddToCart(true)}
+                disabled={loading || stock === 0}
+              >
+                Buy Now
+              </button>
+              <button className="btn btn-primary mr-2" onClick={handleBackToHome}>
+                Continue Shopping
+              </button>
+            </div>
+
+            {/* Message */}
+            {message && (
+              <p
+                className={`mt-4 ${
+                  message.includes("success") ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {message}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

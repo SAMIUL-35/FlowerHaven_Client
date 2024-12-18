@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';  // Assuming you have AuthContext to manage authentication state
+import { AuthContext } from './context/AuthContext';  // Assuming you have AuthContext to manage authentication state
 
 const Order = () => {
-  const [orders, setOrders] = useState([]);  // Store fetched orders
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { token } = useContext(AuthContext);  // Get the user's token from the AuthContext
+
+  const { userName } = useContext(AuthContext);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!token) {
-      
       window.location.href = '/signin'; 
       return;
     }
@@ -29,7 +30,8 @@ const Order = () => {
         }
 
         const data = await response.json();
-        setOrders(data);  // Set the fetched orders to state
+        setOrders(data);  
+        console.log(data);
       } catch (error) {
         setError('Error fetching orders');
         console.error(error);
@@ -42,51 +44,67 @@ const Order = () => {
   }, [token]);
 
   if (loading) {
-    return <div>Loading orders...</div>;  // Show loading indicator while fetching data
+    return <div className="text-center">Loading orders...</div>;  // Show loading indicator while fetching data
   }
 
   if (error) {
     return <div className="text-red-500">{error}</div>;  // Show error message if fetching fails
   }
 
+  // Calculate the grand total from all orders
+  const grandTotal = orders.reduce((total, order) => {
+    return total + parseFloat(order.total_price);
+  }, 0);
+
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h2 className="text-3xl mb-5">Your Orders</h2>
+    <div className="max-w-6xl mx-auto mt-10 flex flex-col min-h-screen">
+      <h2 className="text-3xl mb-5 text-center">Your Orders</h2>
 
       {orders.length === 0 ? (
-        <p>No orders found.</p>  // If no orders exist, show this message
+        <p className="text-center">No orders found.</p>  // If no orders exist, show this message
       ) : (
-        <ul className="space-y-4">
-          {orders.map((order) => (
-            <li key={order.id} className="p-5 border rounded-md">
-              <div className="flex justify-between">
-                <div>
-                  <h3 className="text-xl font-semibold">Order #{order.id}</h3>
-                  <p>Status: {order.status}</p>
-                  <p>Total Price: ${order.total_price}</p>
-                </div>
-                <div>
-                  <p>Date: {new Date(order.created_at).toLocaleDateString()}</p>
-                  {/* You can format the created_at field to a readable date */}
-                </div>
-              </div>
+        <div className="overflow-x-auto">
+          <table className="table w-full table-zebra">
+            {/* Table Header */}
+            <thead>
+              <tr>
+                <th className="bg-primary text-white">Order ID</th>
+                <th className="bg-primary text-white">Flower Name</th>
+                <th className="bg-primary text-white">Quantity</th>
+                <th className="bg-primary text-white">Price</th>
+                <th className="bg-primary text-white">Total Price</th>
+                <th className="bg-primary text-white">Status</th> {/* New status column */}
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                order.cart_items.map((item) => (
+                  <tr key={item.id}>
+                    <td className="text-center">{order.id}</td>
+                    <td className="text-center">{item.flower_name}</td>
+                    <td className="text-center">{item.quantity}</td>
+                    <td className="text-center">BDT {item.flower_price}</td>
+                    <td className="text-center">BDT {item.total_price}</td>
+                    <td className="text-center">{order.status}</td> {/* Display status */}
+                  </tr>
+                ))
+              ))}
+            </tbody>
+          </table>
 
-              {/* You can also map through the order items if necessary */}
-              <div className="mt-3">
-                <h4 className="font-semibold">Items</h4>
-                <ul>
-                  {order.cart_items.map((item) => (
-                    <li key={item.id} className="border-t py-2">
-                      <p>{item.flower_name} - Quantity: {item.quantity}</p>
-                      <p>Price: ${item.flower_price}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          ))}
-        </ul>
+          {/* Grand Total */}
+          <div className="mt-5 text-right">
+            <h3 className="text-2xl font-semibold">Grand Total: BDT {grandTotal.toFixed(2)}</h3>
+          </div>
+        </div>
       )}
+
+      {/* Footer (always at the bottom) */}
+      <footer className="mt-auto bg-gray-800 text-white py-4">
+        <div className="text-center">
+          <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };

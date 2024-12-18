@@ -1,11 +1,12 @@
 import React, { createContext, useState, useContext } from "react";
 
 // Create Cart Context
-const CartContext = createContext();
+export const CartContext = createContext();
 
 // CartProvider component to wrap around your app and provide cart state
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [categoryname, setCategoryName] = useState([]);
 
   const addToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
@@ -20,11 +21,10 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems,categoryname,setCategoryName, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Custom hook to access CartContext
-export const useCart = () => useContext(CartContext);
+export default CartProvider;

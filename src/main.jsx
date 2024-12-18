@@ -4,9 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
 
-import { CartProvider } from "./context/CartContext.jsx";
+import { CartProvider } from "./components/context/CartContext.jsx";
 // import ThemeProvider from "./context/ThemeContext.jsx";
-import AuthProvider from "./context/AuthContext.jsx";
+import AuthProvider from "./components/context/AuthContext.jsx";
 
 import Layout from "./components/Layout.jsx";
 import AdminDashboardLayout from "./components/admin/AdminDashboardLayout.jsx"; // Import AdminDashboardLayout
@@ -14,7 +14,7 @@ import AdminDashboard from "./components/admin/AdminDashboard.jsx";
 import Home from "./components/Home.jsx";
 import SignIn from "./components/SignIn.jsx";
 import SignUp from "./components/SignUp.jsx";
-import Signout from "./components/Signout.jsx";
+
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import ResetPassword from "./components/ResetPassword.jsx";
 import RegistrationConfirmation from "./components/RegistrationConfirmation.jsx";
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       },
       { path: "signin", element: <SignIn /> },
       { path: "signup", element: <SignUp /> },
-      { path: "signout", element: <Signout /> },
+      
       { path: "password_reset", element: <ForgotPassword /> },
       { path: "password-reset/:token", element: <ResetPassword /> },
       { path: "confirmation", element: <RegistrationConfirmation /> },
@@ -60,10 +60,10 @@ const router = createBrowserRouter([
     ],
   },
 
-  // Admin Routes (Separate Layout)
+  
   {
     path: "/admin",
-    element: <AdminDashboardLayout />, // Admin-specific layout
+    element: <AdminDashboardLayout />, 
     children: [
       { path: "dashboard", element: <AdminDashboard /> },
       { path: "flowers", element: <FlowersManagement /> },

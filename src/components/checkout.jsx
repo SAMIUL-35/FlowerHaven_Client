@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -9,7 +9,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [paymentUrl, setPaymentUrl] = useState(null);  // State to hold the payment URL
   const navigate = useNavigate();
-  const { token } = useContext(AuthContext);
+  const { username, token } = useContext(AuthContext);  // Get the user's token from the AuthContext
 
   useEffect(() => {
     // If no token, redirect to sign-in page
@@ -31,8 +31,8 @@ const Checkout = () => {
           return response.json();
         })
         .then((data) => {
-          setCartItems(data.cart_items || []); // Set the fetched cart items
-          setTotalPrice(data.grand_total || 0); // Set the grand total
+          setCartItems(data.cart_items || []);
+          setTotalPrice(data.grand_total || 0);
         })
         .catch((error) => {
           setError('Error fetching cart data');
@@ -83,46 +83,56 @@ const Checkout = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h2 className="text-3xl mb-5">Checkout</h2>
+    <div className="max-w-4xl mx-auto mt-10 p-4">
+      <h2 className="text-3xl mb-5 text-center font-semibold">Checkout</h2>
 
       {error && <div className="text-red-500 mb-3">{error}</div>}
 
-      <div className="mb-5">
-        <h3 className="text-2xl">Cart Items</h3>
-        <ul>
-          {cartItems.length > 0 ? (
-            cartItems.map((item) => (
-              <li key={item.id} className="mb-4 p-4 border rounded-md">
-                <div className="flex justify-between">
-                  <div>
-                    <h4 className="text-lg font-semibold">{item.flower_name}</h4>
-                    <p>Price: ${item.flower_price}</p>
-                  </div>
-                  <div>
-                    <p>Quantity: {item.quantity}</p>
-                    <p>Total: ${item.flower_price * item.quantity}</p>
-                  </div>
-                </div>
-              </li>
-            ))
-          ) : (
-            <p>No items in your cart.</p>
-          )}
-        </ul>
+      {/* Table for cart items */}
+      <div className="overflow-x-auto mb-5">
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th>Flower Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.length > 0 ? (
+              cartItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.flower_name}</td>
+                  <td>BDT {item.flower_price}</td>
+                  <td>{item.quantity}</td>
+                  <td>BDT {item.flower_price * item.quantity}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center">No items in your cart.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
-      <div className="flex justify-between mb-5">
-        <h3 className="text-xl">Total Price</h3>
-        <p className="text-lg font-semibold">${totalPrice}</p>
+      {/* Total Price */}
+      <div className="flex justify-between items-center mb-5">
+        <h3 className="text-xl font-semibold">Total Price</h3>
+        <p className="text-lg font-semibold">BDT {totalPrice}</p>
       </div>
 
-      <button
-        className="btn btn-primary w-full py-2"
-        onClick={handlePayment}
-      >
-        Proceed to Payment
-      </button>
+      {/* Proceed to Payment Button */}
+      <div className="mt-5">
+        <button
+          className="btn btn-primary w-full py-2"
+          onClick={handlePayment}
+        >
+          Proceed to Payment
+        </button>
+      </div>
     </div>
   );
 };

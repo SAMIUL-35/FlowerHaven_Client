@@ -5,15 +5,12 @@ import Footer from "../Footer"; // You can create a specific admin footer if nee
 
 const AdminDashboardLayout = () => {
   return (
-    <div className="max-w-6xl mx-auto bg-gray-200 text-gray-800">
-    
+    <div className="flex flex-col min-h-screen max-w-6xl mx-auto mt-6 bg-lime-300200 text-gray-800">
       <Header />
-
-     
-      <Outlet />
-
-      
-      <Footer/>
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
 };
