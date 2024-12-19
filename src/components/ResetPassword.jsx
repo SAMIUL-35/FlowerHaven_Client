@@ -50,45 +50,50 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <form
         onSubmit={handleResetPassword}
-        className="card bg-base-100 w-full max-w-sm shadow-2xl p-6"
+        className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full"
       >
-        <h2 className="text-2xl font-bold text-center mb-4">Reset Password</h2>
+        <h2 className="text-3xl font-semibold text-center mb-6">Reset Password</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">New Password</span>
+        
+        <div className="form-group mb-4">
+          <label htmlFor="password" className="block text-gray-700 font-medium">
+            New Password
           </label>
           <input
             type="password"
+            id="password"
             placeholder="Enter new password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="input input-bordered"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
             disabled={loading}
           />
         </div>
-        <div className="form-control mt-4">
-          <label className="label">
-            <span className="label-text">Confirm Password</span>
+
+        <div className="form-group mb-4">
+          <label htmlFor="confirmPassword" className="block text-gray-700 font-medium">
+            Confirm Password
           </label>
           <input
             type="password"
+            id="confirmPassword"
             placeholder="Confirm your password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="input input-bordered"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
             disabled={loading}
           />
         </div>
-        <div className="form-control mt-6">
+
+        <div className="form-group mt-6">
           <button
             type="submit"
-            className={`btn btn-primary ${loading ? 'loading' : ''}`}
+            className={`w-full py-2 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={loading}
           >
             {loading ? 'Resetting...' : 'Reset Password'}

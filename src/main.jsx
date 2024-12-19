@@ -28,6 +28,9 @@ import FlowersManagement from "./components/admin/FlowersManagement.jsx";
 import FlowerForm from "./components/admin/Flowerform.jsx";
 import OrderManagement from "./components/admin/OrderManagement.jsx";
 import ProtectedRoute from "./components/context/ProtectedRoute.jsx";
+import OrderSuccessPage from "./components/payment/OrderSuccessPage.jsx";
+import AboutUs from "./components/aboutUs.jsx";
+import ContactUs from "./components/ContactUs.jsx";
 
 // document.body.style.backgroundColor = "#a3d4d3";
 
@@ -58,6 +61,9 @@ const router = createBrowserRouter([
       { path: "flower/:id", element: <FlowerDetail /> },
       { path: "checkout", element: <Checkout /> },
       { path: "order", element: <Order /> },
+      { path:"order-sucess", element:<OrderSuccessPage />} ,
+      {path:"aboutus", element: <AboutUs/>},
+      {path:"contactus", element: <ContactUs/>}
     ],
   },
 

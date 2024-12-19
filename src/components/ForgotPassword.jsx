@@ -40,23 +40,29 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
       <form
         onSubmit={handleForgotPassword}
-        className="card bg-base-100 w-full max-w-sm shadow-2xl p-6"
+        className="card bg-white w-full max-w-sm shadow-lg rounded-lg p-6 border border-gray-200"
       >
-        <h2 className="text-2xl font-bold text-center mb-4">Forgot Password</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        <h2 className="text-2xl font-bold text-center mb-4 text-blue-600">
+          Forgot Password
+        </h2>
+        {error && (
+          <p className="text-sm mb-4 text-red-500 border border-red-200 bg-red-50 p-2 rounded">
+            {error}
+          </p>
+        )}
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Email</span>
+            <span className="label-text text-gray-700 font-medium">Email</span>
           </label>
           <input
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="input input-bordered"
+            className="input input-bordered border-gray-300 focus:ring focus:ring-blue-400 focus:outline-none focus:border-blue-500"
             required
             disabled={loading}
           />
@@ -64,7 +70,9 @@ const ForgotPassword = () => {
         <div className="form-control mt-6">
           <button
             type="submit"
-            className={`btn btn-primary ${loading ? 'loading' : ''}`}
+            className={`btn bg-blue-500 text-white hover:bg-blue-600 focus:ring focus:ring-blue-300 ${
+              loading ? 'loading' : ''
+            }`}
             disabled={loading}
           >
             {loading ? 'Sending...' : 'Send Reset Link'}

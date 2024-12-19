@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
-import './css/style.css';  // Import the CSS file
+import Swal from 'sweetalert2';
+import './css/style.css'; // Import the CSS file
 
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [paymentUrl, setPaymentUrl] = useState(null);  // State to hold the payment URL
   const navigate = useNavigate();
-  const { username, token } = useContext(AuthContext);  // Get the user's token from the AuthContext
+  const { token } = useContext(AuthContext); // Get the user's token from the AuthContext
 
   useEffect(() => {
     // If no token, redirect to sign-in page
@@ -22,7 +22,7 @@ const Checkout = () => {
     const fetchCartItems = () => {
       fetch('http://127.0.0.1:8000/api/cart/cart-total/', {
         headers: {
-          'Authorization': `Token ${token}`,
+          Authorization: `Token ${token}`,
         },
       })
         .then((response) => {
@@ -35,7 +35,7 @@ const Checkout = () => {
           setCartItems(data.cart_items || []);
           setTotalPrice(data.grand_total || 0);
         })
-        .catch((error) => {
+        .catch(() => {
           setError('Error fetching cart data');
         })
         .finally(() => {
@@ -46,36 +46,40 @@ const Checkout = () => {
     fetchCartItems();
   }, [token, navigate]);
 
-  const handlePayment = () => {
-    // Initiate the order creation and payment session with the backend
+  const handleOrder = () => {
+    // Place an order without payment
     fetch('http://127.0.0.1:8000/api/order/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
-      body: JSON.stringify({
-        // You can pass more details here if needed, like cart items or user details
-      }),
+      body: JSON.stringify({}),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to create payment session');
+          throw new Error('Failed to place order');
         }
         return response.json();
       })
-      .then((data) => {
-        // After receiving the response from the backend, redirect to the payment URL
-        if (data.redirect_url) {
-          setPaymentUrl(data.redirect_url);
-          window.location.href = data.redirect_url; // Redirect user to the payment page
-        } else {
-          throw new Error('Payment session creation failed');
-        }
+      .then(() => {
+        Swal.fire({
+          title: 'Order Successful!',
+          text: 'Your order has been placed successfully.',
+          icon: 'success',
+          confirmButtonText: 'Go to Profile',
+        }).then(() => {
+          navigate('/profile'); // Redirect to profile page after confirmation
+        });
       })
-      .catch((error) => {
-        setError('Error initiating payment');
-        console.error(error);
+      .catch(() => {
+        setError('Error placing order');
+        // Swal.fire({
+        //   title: 'Error!',
+        //   text: 'Failed to place your order. Please try again.',
+        //   icon: 'error',
+        //   confirmButtonText: 'Close',
+        // });
       });
   };
 
@@ -125,13 +129,10 @@ const Checkout = () => {
         <p>BDT {totalPrice}</p>
       </div>
 
-      {/* Proceed to Payment Button */}
+      {/* Proceed to Order Button */}
       <div>
-        <button
-          className="payment-button"
-          onClick={handlePayment}
-        >
-          Proceed to Payment
+        <button className="payment-button" onClick={handleOrder}>
+          Place Order
         </button>
       </div>
     </div>
