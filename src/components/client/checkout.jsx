@@ -88,14 +88,14 @@ const Checkout = () => {
   }
 
   return (
-    <div className="checkout-container">
-      <h2 className="checkout-title">Checkout</h2>
+    <div className="Checkout-container">
+      <h2 className="Checkout-title">Checkout</h2>
 
-      {error && <div className="checkout-error">{error}</div>}
+      {error && <div className="Checkout-error">{error}</div>}
 
       {/* Table for cart items */}
       <div className="overflow-x-auto mb-6">
-        <table className="checkout-table">
+        <table className="Checkout-table">
           <thead>
             <tr>
               <th>Flower Name</th>

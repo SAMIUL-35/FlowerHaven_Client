@@ -66,7 +66,7 @@ const Cart = () => {
   };
 
   const handleProceedToCheckout = () => {
-    navigate("/checkout");
+    navigate("/Checkout");
   };
 
   const handleBackToHome = () => {

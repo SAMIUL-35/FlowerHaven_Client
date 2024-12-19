@@ -21,7 +21,7 @@ import Profile from "./components/client/Profile.jsx";
 import Blog from "./components/extra/Blog.jsx";
 import FlowerDetail from "./components/client/FlowerDetail.jsx";
 import Cart from "./components/client/Cart.jsx";
-import Checkout from "./components/client/Checkout.jsx";
+
 import Order from "./components/client/Order.jsx";
 import FlowersManagement from "./components/admin/FlowersManagement.jsx";
 import FlowerForm from "./components/admin/Flowerform.jsx";
@@ -30,6 +30,7 @@ import ProtectedRoute from "./components/context/ProtectedRoute.jsx";
 
 import AboutUs from "./components/extra/aboutUs.jsx";
 import ContactUs from "./components/extra/ContactUs.jsx";
+import Checkout from './components/client/Checkout.jsx';
 
 // document.body.style.backgroundColor = "#a3d4d3";
 
@@ -58,7 +59,7 @@ const router = createBrowserRouter([
         loader: () => fetch("https://flowerheaven.onrender.com/api/cart/"),
       },
       { path: "flower/:id", element: <FlowerDetail /> },
-      { path: "checkout", element: <Checkout /> },
+      { path: "Checkout", element: <Checkout/> },
       { path: "order", element: <Order /> },
      
       {path:"aboutus", element: <AboutUs/>},
