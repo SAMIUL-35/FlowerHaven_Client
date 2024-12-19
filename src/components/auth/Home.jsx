@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Flower from '../client/Flower';
 import Banner from '../extra/Banner';
 import FloerSlider from '../extra/FloerSlider';
-import StateSection from '../extra/StateSection'; // Corrected import
+import StateSection from '../extra/StateSection'; 
 import Newsletter from '../extra/Newsletter';
+
 const Home = () => {
     const [loadedFlowers, setLoadedFlowers] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -11,8 +12,8 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
+    const [loading, setLoading] = useState(false); 
 
-    // Fetch categories
     useEffect(() => {
         fetch('https://flowerheaven.onrender.com/api/category/')
             .then(res => res.json())
@@ -20,27 +21,26 @@ const Home = () => {
             .catch(err => console.error('Error fetching categories:', err));
     }, []);
 
-    // Fetch flowers based on category, search query, and pagination
     useEffect(() => {
         const fetchFlowers = async () => {
+            setLoading(true); // Set loading state
             const categoryFilter = selectedCategory ? `&category=${selectedCategory}` : '';
             const searchFilter = searchQuery ? `&search=${searchQuery}` : '';
             const response = await fetch(`https://flowerheaven.onrender.com/api/flower/?page=${currentPage}${categoryFilter}${searchFilter}`);
             const data = await response.json();
             setLoadedFlowers(data.results || []);
             setTotalPages(Math.ceil(data.count / 12));
+            setLoading(false); // Clear loading state after data is fetched
         };
 
         fetchFlowers();
     }, [selectedCategory, currentPage, searchQuery]);
 
-    // Handle category filter change
     const handleCategoryChange = (categoryId) => {
         setSelectedCategory(categoryId);
         setCurrentPage(1);
     };
 
-    // Handle page navigation
     const handlePageChange = (direction) => {
         if (direction === 'next' && currentPage < totalPages) {
             setCurrentPage(prev => prev + 1);
@@ -49,18 +49,21 @@ const Home = () => {
         }
     };
 
-    // Handle search input change
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
+    const LoadingSpinner = () => (
+        <div className="flex justify-center items-center">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    );
 
     return (
         <>
-        <FloerSlider />
+            <FloerSlider />
             <Banner />
             <div className="p-8 mt-6 max-w-screen-xl mx-auto">
-                {/* Search Bar */}
                 <div className="flex justify-center mb-6">
                     <input
                         type="text"
@@ -71,7 +74,6 @@ const Home = () => {
                     />
                 </div>
 
-                {/* Title and Description */}
                 <div className="text-center mb-8">
                     <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight mb-4 tracking-wide">
                         Hot Flowers
@@ -81,7 +83,6 @@ const Home = () => {
                     </p>
                 </div>
 
-                {/* Category Filter */}
                 <div className="flex flex-wrap justify-center gap-6 mb-8">
                     {categories.map(category => (
                         <button
@@ -96,20 +97,22 @@ const Home = () => {
                     ))}
                 </div>
 
-                {/* Flower List */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    {loadedFlowers.length === 0 ? (
-                        <p className="col-span-full text-center text-xl text-gray-900">No flowers found. Please refine your search or select a category.</p>
-                    ) : (
-                        loadedFlowers.map(flower => (
-                            <div key={flower.id} className="flex justify-center items-center">
-                                <Flower key={flower.id} categories={categories} flower={flower} style={{ maxWidth: '90%' }} />
-                            </div>
-                        ))
-                    )}
-                </div>
+                {loading ? ( // Show loader if data is loading
+                    <LoadingSpinner />
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        {loadedFlowers.length === 0 ? (
+                            <p className="col-span-full text-center text-xl text-gray-900">No flowers found. Please refine your search or select a category.</p>
+                        ) : (
+                            loadedFlowers.map(flower => (
+                                <div key={flower.id} className="flex justify-center items-center">
+                                    <Flower key={flower.id} categories={categories} flower={flower} style={{ maxWidth: '90%' }} />
+                                </div>
+                            ))
+                        )}
+                    </div>
+                )}
 
-                {/* Pagination */}
                 <div className="mt-6 flex justify-between items-center">
                     <button
                         onClick={() => handlePageChange('prev')}
@@ -128,9 +131,8 @@ const Home = () => {
                     </button>
                 </div>
             </div>
-            <StateSection/>
-            <Newsletter/>
-    
+            <StateSection />
+            <Newsletter />
         </>
     );
 };

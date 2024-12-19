@@ -8,14 +8,14 @@ export const AuthProvider = ({ children }) => {
   const [userType, setUserType] = useState(null);
   const [email, setEmail] = useState(null);
 
-  console.log('Auth Token:', token);
+
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
 
-      // Fetch the profile data
+      
       fetch('https://flowerheaven.onrender.com/api/user-profile/', {
         method: 'GET',
         headers: {
@@ -34,11 +34,11 @@ export const AuthProvider = ({ children }) => {
           console.log('Profile Data:', data);
           setUser(data.username);
           setUserType(data.user_type);
-          setEmail(data.email) // Assuming user_type is part of the API response
+          setEmail(data.email) 
         })
         .catch((error) => {
           console.error('Error fetching user profile:', error);
-          // Optionally clear token if invalid
+          
           setToken(null);
           localStorage.removeItem('token');
         });

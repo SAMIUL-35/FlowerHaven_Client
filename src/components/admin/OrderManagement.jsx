@@ -13,7 +13,7 @@ const OrderManagement = () => {
     const fetchOrders = async () => {
       if (!token) {
         console.error('Token is missing');
-        return; // Exit early or redirect the user to the login page
+        return; 
       }
 
       setIsLoading(true); // Show loading indicator
@@ -57,11 +57,11 @@ const OrderManagement = () => {
 
   const handleChangeStatus = async (orderId) => {
     try {
-      // Find the order that is being updated
+      
       const orderToUpdate = orders.find(order => order.id === orderId);
 
       if (orderToUpdate && orderToUpdate.status === "pending") {
-        // Send a request to the server to change the order's status
+        
         const response = await fetch(`https://flowerheaven.onrender.com/api/order/${orderId}/`, {
           method: "PATCH", // Assuming PATCH method for partial updates
           headers: {

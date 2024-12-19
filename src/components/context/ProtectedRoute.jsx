@@ -1,18 +1,51 @@
-import React, { useContext } from 'react';
-import { AuthContext } from './AuthContext'; 
+import React, { useContext, useEffect, useState } from 'react';
+
 import Header from '../extra/Header';
 import Footer from '../extra/Footer';
 
 const ProtectedRoute = ({ element, ...rest }) => {
-  const { userType } = useContext(AuthContext);
+const [userType, setUserType] = useState(null);
+   useEffect(() => {
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) {
+        
+  
+        
+        fetch('https://flowerheaven.onrender.com/api/user-profile/', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Token ${storedToken}`,
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch user profile');
+              
+            }
+            return response.json();
+          })
+          .then((data) => {
+            
+            
+            setUserType(data.user_type);
+             
+          })
+          .catch((error) => {
+            console.error('Error fetching user profile:', error);
+            
+            setToken(null);
+            localStorage.removeItem('token');
+          });
+      }
+    }, []); 
 
   if (userType !== 'admin') {
     return (
       <div className="flex flex-col min-h-screen max-w-6xl mx-auto bg-gray-300 p-6">
-        {/* Header */}
+       
         <Header />
-        
-        {/* Main content */}
+       
         <div className="flex-grow flex flex-col justify-center items-center py-20">
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full text-center">
             <h1 className="text-3xl font-extrabold text-red-600 mb-4">Access Denied</h1>
@@ -28,7 +61,6 @@ const ProtectedRoute = ({ element, ...rest }) => {
           </div>
         </div>
         
-        {/* Footer */}
         <Footer className="mt-auto" />
       </div>
     );
