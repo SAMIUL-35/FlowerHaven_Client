@@ -24,7 +24,7 @@ import Cart from "./components/client/Cart.jsx";
 
 import Order from "./components/client/Order.jsx";
 import FlowersManagement from "./components/admin/FlowersManagement.jsx";
-import FlowerForm from "./components/admin/Flowerform.jsx";
+import FlowerForm from "./components/admin/FlowerForm.jsx";
 import OrderManagement from "./components/admin/OrderManagement.jsx";
 import ProtectedRoute from "./components/context/ProtectedRoute.jsx";
 
