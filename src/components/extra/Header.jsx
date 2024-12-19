@@ -99,7 +99,7 @@ const Header = () => {
       <div className="navbar-start">
         {/* Brand Name */}
         <NavLink to="/" className="btn btn-ghost normal-case text-2xl text-gray-800 font-bold">
-          FlowerHaven
+          FlowerHeaven
         </NavLink>
 
         {/* Hamburger Menu for Mobile */}
