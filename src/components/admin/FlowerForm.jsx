@@ -19,7 +19,7 @@ const FlowerForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/category/');
+        const response = await axios.get('https://flowerheaven.onrender.com/api/category/');
         setCategories([{ id: '', name: 'Select Category' }, ...response.data]);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -48,7 +48,7 @@ const FlowerForm = () => {
     formDataToSend.append('stock', formData.stock);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/flower/', formDataToSend);
+      const response = await axios.post('https://flowerheaven.onrender.com/api/flower/', formDataToSend);
       if (response.status === 201) {
         toast.success('Flower added successfully!');
         navigate('/admin/flowers/');

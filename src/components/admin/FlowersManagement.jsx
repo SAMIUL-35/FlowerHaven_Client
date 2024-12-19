@@ -7,7 +7,7 @@ const FlowerManagement = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/flower/?page=${currentPage}`)
+    fetch(`https://flowerheaven.onrender.com/api/flower/?page=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
         setFlowers(data.results || []);
@@ -17,7 +17,7 @@ const FlowerManagement = () => {
   }, [currentPage]);
 
   const handleDelete = (id) => {
-    fetch(`http://127.0.0.1:8000/api/flower/${id}/`, {
+    fetch(`https://flowerheaven.onrender.com/api/flower/${id}/`, {
       method: "DELETE",
     })
       .then(() => {

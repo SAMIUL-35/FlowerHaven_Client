@@ -18,7 +18,7 @@ const OrderManagement = () => {
 
       setIsLoading(true); // Show loading indicator
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/order/?page=${currentPage}`, {
+        const response = await fetch(`https://flowerheaven.onrender.com/api/order/?page=${currentPage}`, {
           method: "GET",
           headers: {
             "Authorization": `Token ${token}`, // Include the token in the request headers
@@ -62,7 +62,7 @@ const OrderManagement = () => {
 
       if (orderToUpdate && orderToUpdate.status === "pending") {
         // Send a request to the server to change the order's status
-        const response = await fetch(`http://127.0.0.1:8000/api/order/${orderId}/`, {
+        const response = await fetch(`https://flowerheaven.onrender.com/api/order/${orderId}/`, {
           method: "PATCH", // Assuming PATCH method for partial updates
           headers: {
             "Authorization": `Token ${token}`,

@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       setToken(storedToken);
 
       // Fetch the profile data
-      fetch('http://127.0.0.1:8000/api/user-profile/', {
+      fetch('https://flowerheaven.onrender.com/api/user-profile/', {
         method: 'GET',
         headers: {
           'Authorization': `Token ${storedToken}`,

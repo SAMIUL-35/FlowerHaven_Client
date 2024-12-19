@@ -18,7 +18,7 @@ const FlowerDetail = () => {
   useEffect(() => {
     const fetchFlowerDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/flower/${id}/`);
+        const response = await fetch(`https://flowerheaven.onrender.com/api/flower/${id}/`);
         if (!response.ok) {
           throw new Error("Failed to fetch flower details.");
         }
@@ -51,7 +51,7 @@ const FlowerDetail = () => {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/cart/", {
+      const response = await fetch("https://flowerheaven.onrender.com/api/cart/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

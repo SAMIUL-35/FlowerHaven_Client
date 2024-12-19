@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => fetch("http://127.0.0.1:8000/api/flower/"),
+        loader: () => fetch("https://flowerheaven.onrender.com/api/flower/"),
       },
       { path: "signin", element: <SignIn /> },
       { path: "signup", element: <SignUp /> },
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
-        loader: () => fetch("http://127.0.0.1:8000/api/cart/"),
+        loader: () => fetch("https://flowerheaven.onrender.com/api/cart/"),
       },
       { path: "flower/:id", element: <FlowerDetail /> },
       { path: "checkout", element: <Checkout /> },

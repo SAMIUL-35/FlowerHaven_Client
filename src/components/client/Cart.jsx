@@ -15,7 +15,7 @@ const Cart = () => {
     const fetchCartItems = () => {
       setLoading(true); // Set loading to true when starting fetch
 
-      fetch("http://127.0.0.1:8000/api/cart/", {
+      fetch("https://flowerheaven.onrender.com/api/cart/", {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -42,7 +42,7 @@ const Cart = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/cart/${id}/`, {
+      const response = await fetch(`https://flowerheaven.onrender.com/api/cart/${id}/`, {
         method: "DELETE",
         headers: {
           Authorization: `Token ${token}`,

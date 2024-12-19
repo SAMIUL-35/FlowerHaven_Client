@@ -20,7 +20,7 @@ const Checkout = () => {
     }
 
     const fetchCartItems = () => {
-      fetch('http://127.0.0.1:8000/api/cart/cart-total/', {
+      fetch('https://flowerheaven.onrender.com/api/cart/cart-total/', {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -48,7 +48,7 @@ const Checkout = () => {
 
   const handleOrder = () => {
     // Place an order without payment
-    fetch('http://127.0.0.1:8000/api/order/', {
+    fetch('https://flowerheaven.onrender.com/api/order/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

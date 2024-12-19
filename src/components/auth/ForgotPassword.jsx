@@ -12,7 +12,7 @@ const ForgotPassword = () => {
     setError('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/password_reset/', {
+      const response = await fetch('https://flowerheaven.onrender.com/api/password_reset/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

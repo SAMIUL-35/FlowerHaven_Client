@@ -15,7 +15,7 @@ const Home = () => {
 
     // Fetch categories
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/category/')
+        fetch('https://flowerheaven.onrender.com/api/category/')
             .then(res => res.json())
             .then(data => setCategories([{ id: '', name: 'All' }, ...data]))
             .catch(err => console.error('Error fetching categories:', err));
@@ -26,7 +26,7 @@ const Home = () => {
         const fetchFlowers = async () => {
             const categoryFilter = selectedCategory ? `&category=${selectedCategory}` : '';
             const searchFilter = searchQuery ? `&search=${searchQuery}` : '';
-            const response = await fetch(`http://127.0.0.1:8000/api/flower/?page=${currentPage}${categoryFilter}${searchFilter}`);
+            const response = await fetch(`https://flowerheaven.onrender.com/api/flower/?page=${currentPage}${categoryFilter}${searchFilter}`);
             const data = await response.json();
             setLoadedFlowers(data.results || []);
             setTotalPages(Math.ceil(data.count / 12));
