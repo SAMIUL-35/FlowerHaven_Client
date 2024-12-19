@@ -80,19 +80,18 @@ const Cart = () => {
   const grandTotal = calculateTotalPrice();
 
   return (
-    <div className="min-h-screen flex flex-col p-6 bg-gray-100">
+    <div className="min-h-screen flex flex-col p-8 bg-gray-50">
       {cartItems.length === 0 ? (
         <div className="text-center">
-          <p className="text-xl text-gray-800">Your cart is empty!</p>
-          <button className="btn btn-primary mt-4" onClick={handleBackToHome}>
+          <p className="text-xl text-gray-700">Your cart is empty!</p>
+          <button className="btn btn-primary mt-4 px-6 py-3 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-all" onClick={handleBackToHome}>
             Continue Shopping
           </button>
-          {/* Show toast for empty cart */}
-          {toast.info("Your cart is empty! Start shopping now.")}
+         
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-lg mb-6 bg-white shadow-lg">
+          <div className="overflow-x-auto rounded-lg mb-6 bg-white shadow-lg border border-gray-200">
             <table className="table w-full table-auto border-collapse">
               <thead className="bg-gray-800 text-white">
                 <tr>
@@ -117,7 +116,7 @@ const Cart = () => {
                     <td className="border p-3">${item.total_price}</td>
                     <td className="border p-3">
                       <button
-                        className="btn btn-error btn-sm"
+                        className="btn btn-error btn-sm px-4 py-2 bg-red-600 text-white hover:bg-red-700 transition-all"
                         onClick={() => handleDelete(item.id)}
                       >
                         Delete
@@ -129,13 +128,13 @@ const Cart = () => {
             </table>
           </div>
 
-          <div className="flex justify-between items-center mt-6 bg-white p-4 shadow-md rounded-lg">
-            <p className="font-bold text-lg text-gray-900">Grand Total: ${grandTotal}</p>
-            <div className="flex space-x-4">
-              <button className="btn btn-secondary" onClick={handleBackToHome}>
+          <div className="flex justify-between items-center mt-8 bg-white p-6 shadow-md rounded-lg">
+            <p className="font-bold text-xl text-gray-900">Grand Total: ${grandTotal}</p>
+            <div className="flex space-x-6">
+              <button className="btn btn-secondary px-6 py-3 bg-gray-600 text-white hover:bg-gray-700 rounded-md transition-all" onClick={handleBackToHome}>
                 Continue Shopping
               </button>
-              <button className="btn btn-success" onClick={handleProceedToCheckout}>
+              <button className="btn btn-success px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-md transition-all" onClick={handleProceedToCheckout}>
                 Proceed to Check Out
               </button>
             </div>
