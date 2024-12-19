@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Flower from '../client/Flower';
 import Banner from '../extra/Banner';
-import FlowerSlider from '../extra/FloerSlider';
-import StatsSection from '../extra/StateSection';
-import Newsletter from '../extra/NewsLetter';
-
+import FloerSlider from '../extra/FloerSlider';
+import StateSection from '../extra/StateSection'; // Corrected import
+import Newsletter from '../extra/Newsletter';
 const Home = () => {
     const [loadedFlowers, setLoadedFlowers] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -58,7 +57,7 @@ const Home = () => {
 
     return (
         <>
-        <FlowerSlider />
+        <FloerSlider />
             <Banner />
             <div className="p-8 mt-6 max-w-screen-xl mx-auto">
                 {/* Search Bar */}
@@ -129,8 +128,9 @@ const Home = () => {
                     </button>
                 </div>
             </div>
-            <StatsSection/>
+            <StateSection/>
             <Newsletter/>
+    
         </>
     );
 };

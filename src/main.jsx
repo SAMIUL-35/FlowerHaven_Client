@@ -28,7 +28,7 @@ import FlowerForm from "./components/admin/FlowerForm.jsx";
 import OrderManagement from "./components/admin/OrderManagement.jsx";
 import ProtectedRoute from "./components/context/ProtectedRoute.jsx";
 
-import AboutUs from "./components/extra/aboutUs.jsx";
+import AboutUs from "./components/extra/AboutUs.jsx";
 import ContactUs from "./components/extra/ContactUs.jsx";
 import Checkout from './components/client/Checkout.jsx';
 
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
       { path: "Checkout", element: <Checkout/> },
       { path: "order", element: <Order /> },
      
-      {path:"aboutus", element: <AboutUs/>},
+      {path:"AboutUs", element: <AboutUs/>},
       {path:"contactus", element: <ContactUs/>}
     ],
   },
