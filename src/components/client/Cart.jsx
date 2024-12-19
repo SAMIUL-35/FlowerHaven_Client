@@ -1,19 +1,20 @@
 import React, { useEffect, useState, useContext } from "react";
 import { toast } from "react-toastify";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import "./css/style.css"; // Ensure the updated CSS is imported
+import "../css/style.css"; // Ensure the updated CSS is imported
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
   const { username } = useContext(AuthContext);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchCartItems = () => {
+      setLoading(true); // Set loading to true when starting fetch
+
       fetch("http://127.0.0.1:8000/api/cart/", {
         headers: {
           Authorization: `Token ${token}`,
@@ -26,14 +27,13 @@ const Cart = () => {
           return response.json();
         })
         .then((data) => {
-          setCartItems(data);
+          setCartItems(data); // Successfully fetched cart items
         })
         .catch((error) => {
-          setMessage("Error fetching cart items. Please try again later.");
-          toast.error(error.message || "Error fetching cart items.");
+          toast.error("Error fetching cart items.");
         })
         .finally(() => {
-          setLoading(false);
+          setLoading(false); // Ensure loading is set to false when fetch is complete
         });
     };
 
@@ -87,6 +87,8 @@ const Cart = () => {
           <button className="btn btn-primary mt-4" onClick={handleBackToHome}>
             Continue Shopping
           </button>
+          {/* Show toast for empty cart */}
+          {toast.info("Your cart is empty! Start shopping now.")}
         </div>
       ) : (
         <>
@@ -139,12 +141,6 @@ const Cart = () => {
             </div>
           </div>
         </>
-      )}
-
-      {message && (
-        <div className={`mt-4 text-sm ${message.includes("success") ? "text-green-600" : "text-red-600"}`}>
-          {message}
-        </div>
       )}
     </div>
   );

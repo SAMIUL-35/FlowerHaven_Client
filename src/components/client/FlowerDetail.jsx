@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2"; // Import SweetAlert2
-import { AuthContext } from "./context/AuthContext";
-import { CartContext } from "./context/CartContext";
+import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/CartContext";
 
 const FlowerDetail = () => {
   const { id } = useParams();
@@ -59,16 +59,13 @@ const FlowerDetail = () => {
         },
         body: JSON.stringify(payload),
       });
-
+      if (redirectToCart) {
+        navigate("/cart");
+      }
       if (response.ok) {
         Swal.fire("Success", "Item added to cart successfully!", "success");
-        if (redirectToCart) {
-          navigate("/cart");
-        }
-      } else {
-        const errorData = await response.json();
-        Swal.fire("Error", errorData.message || "Failed to add item to cart.", "error");
-      }
+        
+      } 
     } catch (error) {
       Swal.fire("Error", "An unexpected error occurred.", "error");
     } finally {

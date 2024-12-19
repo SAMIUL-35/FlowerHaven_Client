@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from './context/AuthContext';  // Assuming you have AuthContext to manage authentication state
+import { AuthContext } from '../context/AuthContext';  // Assuming you have AuthContext to manage authentication state
 
 const Order = () => {
   const [orders, setOrders] = useState([]);

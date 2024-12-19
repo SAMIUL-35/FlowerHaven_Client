@@ -47,8 +47,8 @@ const SignUp = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center relative bg-cover bg-center px-5"
-      style={{ backgroundImage: "url('/src/assets/signup3.jpg')" }}
+      className="min-h-screen flex items-center justify-center bg-gray-100 relative bg-cover bg-center px-5"
+      style={{ backgroundImage: "url('/assets/signup3.jpg')" }}
     >
       <div className="relative z-10 bg-white/80 p-8 shadow-xl rounded-lg max-w-md w-full mx-auto backdrop-blur-sm">
         <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">Create Your Account</h2>

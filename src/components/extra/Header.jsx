@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { FaCartPlus, FaUser, FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
@@ -84,13 +84,13 @@ const Header = () => {
           Contact Us
         </NavLink>
       </li>
-      {token && (
+      
         <li>
           <NavLink to="/admin/dashboard" className="text-lg font-medium text-gray-800 hover:text-gray-600">
             Admin Dashboard
           </NavLink>
         </li>
-      )}
+      
     </>
   );
 

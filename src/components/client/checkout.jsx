@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from './context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import Swal from 'sweetalert2';
-import './css/style.css'; // Import the CSS file
+import '../css/style.css'; 
 
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);

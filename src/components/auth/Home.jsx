@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Flower from './Flower';
-import Banner from './Banner';
-import { CartContext } from "./context/CartContext";
+import Flower from '../client/Flower';
+import Banner from '../extra/Banner';
+import FlowerSlider from '../extra/FloerSlider';
+import StatsSection from '../extra/StateSection';
+import Newsletter from '../extra/NewsLetter';
 
 const Home = () => {
     const [loadedFlowers, setLoadedFlowers] = useState([]);
@@ -56,6 +58,7 @@ const Home = () => {
 
     return (
         <>
+        <FlowerSlider />
             <Banner />
             <div className="p-8 mt-6 max-w-screen-xl mx-auto">
                 {/* Search Bar */}
@@ -70,10 +73,14 @@ const Home = () => {
                 </div>
 
                 {/* Title and Description */}
-                <h2 className="text-center mb-4 text-4xl font-bold text-gray-900">Hot Flowers</h2>
-                <p className="text-center mb-6 text-lg text-gray-700">
-                    Discover the best flowers in your area. Filter by category and search for specific flowers.
-                </p>
+                <div className="text-center mb-8">
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight mb-4 tracking-wide">
+                        Hot Flowers
+                    </h2>
+                    <p className="text-lg md:text-xl font-medium text-gray-700 leading-relaxed max-w-3xl mx-auto">
+                        Discover the best flowers in your area. Filter by category and search for specific flowers.
+                    </p>
+                </div>
 
                 {/* Category Filter */}
                 <div className="flex flex-wrap justify-center gap-6 mb-8">
@@ -122,6 +129,8 @@ const Home = () => {
                     </button>
                 </div>
             </div>
+            <StatsSection/>
+            <Newsletter/>
         </>
     );
 };

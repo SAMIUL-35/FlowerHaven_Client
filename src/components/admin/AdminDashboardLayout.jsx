@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "./Navbar"; // You can create a specific admin header if needed
-import Footer from "../Footer"; // You can create a specific admin footer if needed
+import Header from "../extra/Header"; // You can create a specific admin header if needed
+import Footer from "../extra/Footer"; // You can create a specific admin footer if needed
 
 const AdminDashboardLayout = () => {
   return (

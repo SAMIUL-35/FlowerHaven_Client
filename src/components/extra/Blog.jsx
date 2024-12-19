@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // Import images
-import blog1 from '../assets/blog1.jpg';
-import blog2 from '../assets/blog2.jpg';
-import blog3 from '../assets/blog3.jpg';
-import blog4 from '../assets/blog4.jpg';
+import blog1 from '/assets/blog1.jpg';
+import blog2 from '/assets/blog2.jpg';
+import blog3 from '/assets/blog3.jpg';
+import blog4 from '/assets/blog4.jpg';
 
 const Blog = () => {
   const blogPosts = [
@@ -36,9 +36,9 @@ const Blog = () => {
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12">
+    <div className="bg-gray-300 min-h-screen py-12">
       <div className="container mx-auto px-6">
-        <h1 className="text-4xl font-extrabold text-center mb-12 text-gray-800">Flower Shop Blog</h1>
+        <h1 className="text-4xl font-extrabold text-center mb-12 text-gray-800">Flower Heaven Blog</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
             <div key={post.id} className="card bg-white shadow-lg rounded-lg overflow-hidden">

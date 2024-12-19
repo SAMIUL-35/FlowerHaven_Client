@@ -19,6 +19,7 @@
     "react-router-dom": "^7.0.2",
     "react-toastify": "^10.0.6",
     "sweetalert2": "^11.15.0",
+    "swiper": "^11.1.15",
     "theme-change": "^2.5.0"
   },
   "devDependencies": {

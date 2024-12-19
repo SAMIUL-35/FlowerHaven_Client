@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CartContext } from "./context/CartContext";
+import { CartContext } from "../context/CartContext";
 
 const Flower = ({ flower, categories }) => {
     const { id, name, price, image, stock, category } = flower;

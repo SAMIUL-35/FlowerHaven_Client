@@ -1,15 +1,18 @@
 import React, { useContext } from 'react';
 import { AuthContext } from './AuthContext'; 
-import Header from '../Header';
-import Footer from '../Footer';
+import Header from '../extra/Header';
+import Footer from '../extra/Footer';
 
 const ProtectedRoute = ({ element, ...rest }) => {
   const { userType } = useContext(AuthContext);
 
   if (userType !== 'admin') {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
+      <div className="flex flex-col min-h-screen max-w-6xl mx-auto bg-gray-300 p-6">
+        {/* Header */}
         <Header />
+        
+        {/* Main content */}
         <div className="flex-grow flex flex-col justify-center items-center py-20">
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full text-center">
             <h1 className="text-3xl font-extrabold text-red-600 mb-4">Access Denied</h1>
@@ -24,6 +27,8 @@ const ProtectedRoute = ({ element, ...rest }) => {
             </button>
           </div>
         </div>
+        
+        {/* Footer */}
         <Footer className="mt-auto" />
       </div>
     );

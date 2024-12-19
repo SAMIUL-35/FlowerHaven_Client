@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
@@ -39,7 +39,7 @@ const SignIn = () => {
     <div
       className="min-h-screen flex items-center justify-center bg-gray-50"
       style={{
-        backgroundImage: "url('/src/assets/signup3.jpg')",
+        backgroundImage: "url('/assets/signup3.jpg')",
         backgroundSize: "cover",
         paddingTop: "4rem",
       }}
