@@ -2,38 +2,56 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-
+import Swal from "sweetalert2";
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+ 
 
   const { setUser, setToken } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ 
 
-    const loginData = { username, email, password };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        "https://flowerheaven.onrender.com/api/auth/login/",
-        loginData
-      );
+  const loginData = { username, email, password };
 
-      setToken(response.data.key);
-      setUser(username);
-      localStorage.setItem("token", response.data.key);
-      localStorage.setItem("username", username);
+  try {
+    const response = await axios.post(
+      "https://flowerheaven.onrender.com/api/auth/login/",
+      loginData
+    );
 
-      navigate("/");
-    } catch (err) {
-      setError("Invalid credentials or server error");
-    }
-  };
+    // If login is successful
+    setToken(response.data.key);
+    setUser(username);
+    localStorage.setItem("token", response.data.key);
+    localStorage.setItem("username", username);
+
+    // Show success alert
+    Swal.fire({
+      icon: "success",
+      title: "Welcome back!",
+      text: "You have successfully logged in.",
+    });
+
+    navigate("/");
+  } catch (err) {
+    // Show user-friendly error alert
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: "Oops! Please check your username, email, or password and try again.",
+    });
+  }
+};
+
+  
 
   return (
     <div

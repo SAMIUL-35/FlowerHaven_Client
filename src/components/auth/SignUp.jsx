@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
-  const [error, setError] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password1 !== password2) {
-      setError('Passwords do not match!');
+      Swal.fire({
+        icon: "error",
+        title: "Password Mismatch",
+        text: "Passwords do not match! Please try again.",
+      });
       return;
     }
 
@@ -25,23 +29,38 @@ const SignUp = () => {
     };
 
     try {
-      const response = await fetch('https://flowerheaven.onrender.com/api/auth/registration/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registrationData),
-      });
+      const response = await fetch(
+        "https://flowerheaven.onrender.com/api/auth/registration/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(registrationData),
+        }
+      );
 
       if (response.ok) {
-        alert('Registration Successful. Please check your email for confirmation.');
-        navigate('/signin');
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful",
+          text: "Please check your email for confirmation.",
+        });
+        navigate("/signin");
       } else {
         const data = await response.json();
-        setError(data.detail || 'Error during registration!');
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          text: data.detail || "Error during registration! Please try again.",
+        });
       }
     } catch (err) {
-      setError('Network error or server is not responding!');
+      Swal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "Network error or server is not responding! Please try later.",
+      });
     }
   };
 
@@ -51,8 +70,9 @@ const SignUp = () => {
       style={{ backgroundImage: "url('/assets/signup3.jpg')" }}
     >
       <div className="relative z-10 bg-white/80 p-8 shadow-xl rounded-lg max-w-md w-full mx-auto backdrop-blur-sm">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">Create Your Account</h2>
-        {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">
+          Create Your Account
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -139,9 +159,9 @@ const SignUp = () => {
         </form>
 
         <p className="text-center text-gray-700 mt-4">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <button
-            onClick={() => navigate('/signin')}
+            onClick={() => navigate("/signin")}
             className="text-blue-600 font-semibold underline"
           >
             Sign In
