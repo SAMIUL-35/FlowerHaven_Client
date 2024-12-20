@@ -2,40 +2,50 @@ import React, { useState, useEffect } from 'react';
 import Flower from '../client/Flower';
 import Banner from '../extra/Banner';
 import FloerSlider from '../extra/FloerSlider';
-import StateSection from '../extra/StateSection'; 
+import StateSection from '../extra/StateSection';
 import Newsletter from '../extra/Newsletter';
 
 const Home = () => {
-    const [loadedFlowers, setLoadedFlowers] = useState([]);
+    const [flowers, setFlowers] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
 
+    // Fetch Categories
     useEffect(() => {
         fetch('https://flowerheaven.onrender.com/api/category/')
-            .then(res => res.json())
-            .then(data => setCategories([{ id: '', name: 'All' }, ...data]))
-            .catch(err => console.error('Error fetching categories:', err));
+            .then((res) => res.json())
+            .then((data) => setCategories([{ id: '', name: 'All' }, ...data]))
+            .catch((err) => console.error('Error fetching categories:', err));
     }, []);
 
+    // Fetch Flowers
     useEffect(() => {
         const fetchFlowers = async () => {
-            setLoading(true); // Set loading state
-            const categoryFilter = selectedCategory ? `&category=${selectedCategory}` : '';
-            const searchFilter = searchQuery ? `&search=${searchQuery}` : '';
-            const response = await fetch(`https://flowerheaven.onrender.com/api/flower/?page=${currentPage}${categoryFilter}${searchFilter}`);
-            const data = await response.json();
-            setLoadedFlowers(data.results || []);
-            setTotalPages(Math.ceil(data.count / 12));
-            setLoading(false); // Clear loading state after data is fetched
+            setLoading(true);
+            try {
+                const categoryFilter = selectedCategory ? `&category=${selectedCategory}` : '';
+                const searchFilter = searchQuery ? `&search=${searchQuery}` : '';
+                const response = await fetch(
+                    `https://flowerheaven.onrender.com/api/flower/?page=${currentPage}${categoryFilter}${searchFilter}`
+                );
+                const data = await response.json();
+                setFlowers(data.results || []);
+                setTotalPages(Math.ceil(data.count / 12));
+            } catch (err) {
+                console.error('Error fetching flowers:', err);
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchFlowers();
     }, [selectedCategory, currentPage, searchQuery]);
 
+    // Handlers
     const handleCategoryChange = (categoryId) => {
         setSelectedCategory(categoryId);
         setCurrentPage(1);
@@ -43,9 +53,9 @@ const Home = () => {
 
     const handlePageChange = (direction) => {
         if (direction === 'next' && currentPage < totalPages) {
-            setCurrentPage(prev => prev + 1);
+            setCurrentPage((prev) => prev + 1);
         } else if (direction === 'prev' && currentPage > 1) {
-            setCurrentPage(prev => prev - 1);
+            setCurrentPage((prev) => prev - 1);
         }
     };
 
@@ -53,6 +63,7 @@ const Home = () => {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
+
     const LoadingSpinner = () => (
         <div className="flex justify-center items-center">
             <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -63,6 +74,8 @@ const Home = () => {
         <>
             <FloerSlider />
             <Banner />
+
+            {/* Search Section */}
             <div className="p-8 mt-6 max-w-screen-xl mx-auto">
                 <div className="flex justify-center mb-6">
                     <input
@@ -74,6 +87,7 @@ const Home = () => {
                     />
                 </div>
 
+                {/* Heading Section */}
                 <div className="text-center mb-8">
                     <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight mb-4 tracking-wide">
                         Hot Flowers
@@ -83,13 +97,16 @@ const Home = () => {
                     </p>
                 </div>
 
+                {/* Category Filters */}
                 <div className="flex flex-wrap justify-center gap-6 mb-8">
-                    {categories.map(category => (
+                    {categories.map((category) => (
                         <button
                             key={category.id}
                             onClick={() => handleCategoryChange(category.id)}
                             className={`px-6 py-3 text-lg font-semibold rounded-lg transition-all duration-300 ${
-                                selectedCategory === category.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                                selectedCategory === category.id
+                                    ? 'bg-blue-600 text-white shadow-lg'
+                                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
                             }`}
                         >
                             {category.name}
@@ -97,22 +114,24 @@ const Home = () => {
                     ))}
                 </div>
 
-                {loading ? ( // Show loader if data is loading
+                {/* Flower Cards */}
+                {loading ? (
                     <LoadingSpinner />
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                        {loadedFlowers.length === 0 ? (
-                            <p className="col-span-full text-center text-xl text-gray-900">No flowers found. Please refine your search or select a category.</p>
+                        {flowers.length === 0 ? (
+                            <p className="col-span-full text-center text-xl text-gray-900">
+                                No flowers found. Please refine your search or select a category.
+                            </p>
                         ) : (
-                            loadedFlowers.map(flower => (
-                                <div key={flower.id} className="flex justify-center items-center">
-                                    <Flower key={flower.id} categories={categories} flower={flower} style={{ maxWidth: '90%' }} />
-                                </div>
+                            flowers.map((flower) => (
+                                <Flower key={flower.id} categories={categories} flower={flower} />
                             ))
                         )}
                     </div>
                 )}
 
+                {/* Pagination Controls */}
                 <div className="mt-6 flex justify-between items-center">
                     <button
                         onClick={() => handlePageChange('prev')}
@@ -121,7 +140,9 @@ const Home = () => {
                     >
                         Previous
                     </button>
-                    <span className="text-gray-900 text-xl">Page {currentPage} of {totalPages}</span>
+                    <span className="text-gray-900 text-xl">
+                        Page {currentPage} of {totalPages}
+                    </span>
                     <button
                         onClick={() => handlePageChange('next')}
                         disabled={currentPage === totalPages}
@@ -131,6 +152,8 @@ const Home = () => {
                     </button>
                 </div>
             </div>
+
+            {/* Additional Sections */}
             <StateSection />
             <Newsletter />
         </>
