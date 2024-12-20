@@ -15,7 +15,7 @@ const Flower = ({ flower, categories }) => {
                     src={image}
                     alt={name}
                     className="object-cover w-full h-full"
-                    loading="lazy" // Lazy loading for performance
+                  
                     onError={(e) => (e.target.src = "/fallback-image.jpg")} // Fallback image
                 />
                 {/* Stock Status */}
